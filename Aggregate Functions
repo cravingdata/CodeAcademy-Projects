@@ -38,6 +38,73 @@ SELECT pay_date, SUM(amount) AS 'total amount'
 FROM payments
 WHERE status = 'paid'
 GROUP BY 1
+
+--Trends in Startup Project-------------------------------------------------------------------------------------------------
+SELECT *
+FROM startups;
+
+--calculate total 
+SELECT COUNT(*)
+FROM startups;
+
+--total value of all companies
+SELECT SUM(valuation)
+FROM startups;
+
+--highest amount raised by startup
+SELECT MAX(raised)
+FROM startups;
+
+--max amount of money raised during 'Seed' stage
+SELECT MAX(raised)
+FROM startups
+WHERE stage = 'Seed';
+
+--year of oldest company founded
+SELECT MIN(founded)
+FROM startups;
+
+--average valuation
+SELECT AVG(valuation)
+FROM startups;
+
+--avg valutation, each category
+SELECT category, AVG(valuation)
+FROM startups
+GROUP BY category;
+
+--avg valuation, category rounded to 2 dec places
+SELECT category, ROUND(AVG(valuation), 2)
+FROM startups
+GROUP BY category;
+
+--avg valuation, category, order highest to lowest averages
+SELECT category, ROUND(AVG(valuation), 2)
+FROM startups
+GROUP BY category
+ORDER BY 2 DESC;
+
+--name of category
+SELECT category, COUNT(*)
+FROM startups
+GROUP BY 1;
+
+--categories with > 3 companies
+SELECT category, COUNT(*)
+FROM startups
+GROUP BY 1
+HAVING COUNT(*) > 3;
+
+--average size of startup in each location
+SELECT location, AVG(employees)
+FROM startups
+GROUP BY 1;
+
+--average size above 500
+SELECT location, AVG(employees) as 'Average size'
+FROM startups
+GROUP BY 1
+HAVING AVG(employees)> 500;
 ORDER BY 2 DESC;
 
 --average payment amount 

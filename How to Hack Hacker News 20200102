@@ -56,3 +56,10 @@ FROM hacker_news
 LIMIT 10;
 
 --
+SELECT timestamp,
+   strftime('%S', timestamp)
+FROM hacker_news
+GROUP BY 1
+LIMIT 20;
+
+--

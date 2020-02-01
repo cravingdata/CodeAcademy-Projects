@@ -33,3 +33,13 @@ FROM met
 WHERE Metal IS NOT NULL
 GROUP BY 1
 ORDER BY 2 DESC;
+
+--
+ SELECT count(money_in), currency
+ FROM transactions
+ WHERE currency LIKE 'BIT';
+ 
+ --
+  SELECT date, AVG(money_in), AVG(money_out)
+ FROM transactions
+ GROUP BY date;

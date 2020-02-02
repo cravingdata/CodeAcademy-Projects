@@ -56,3 +56,10 @@ GROUP BY 1;
 SELECT * 
 FROM classes JOIN students ON
 classes.id = students.class_id; 
+
+--UNION 
+SELECT * 
+FROM newspaper
+UNION 
+SELECT * 
+FROM online;

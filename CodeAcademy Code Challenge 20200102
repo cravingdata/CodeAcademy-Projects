@@ -31,9 +31,6 @@ february AS (
   FROM plays
   WHERE strftime("%m", play_date) = '02'
 )
-/*
-Write query here
-*/
 SELECT january.user_id
 FROM january
 LEFT JOIN february 

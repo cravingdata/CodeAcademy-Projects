@@ -68,3 +68,10 @@ UNION
 SELECT * 
 FROM bonus_songs
 LIMIT 10;
+
+--creating temporary table 
+SELECT '2017-01-01' as month
+UNION
+SELECT '2017-02-01' as month
+UNION
+SELECT '2017-03-01' as month;

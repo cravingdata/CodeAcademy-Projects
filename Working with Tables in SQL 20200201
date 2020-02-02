@@ -40,6 +40,18 @@ SELECT *
 FROM newspaper 
 CROSS JOIN months;
 
+SELECT * 
+FROM newspaper
+CROSS JOIN months
+WHERE start_month <= month and end_month >= month;
+
+SELECT month, 
+COUNT(*)
+FROM newspaper
+CROSS JOIN months 
+WHERE start_month <= month and end_month >= month
+GROUP BY 1;
+
 --PRIMARY KEY VERSUS FOREIGN KEY 
 SELECT * 
 FROM classes JOIN students ON

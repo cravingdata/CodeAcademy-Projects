@@ -5,3 +5,12 @@ FROM premium_users
 JOIN plans
 ON plans.id = premium_users.membership_plan_id;
 
+-- 
+SELECT plays.user_id, 
+     plays.play_date, 
+     songs.title
+FROM plays
+JOIN songs 
+ ON plays.songs_id = songs.id; 
+   
+--

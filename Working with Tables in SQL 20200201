@@ -16,3 +16,16 @@ JOIN online ON
   newspaper.id = online.id;
 
 --
+SELECT * 
+FROM newspaper
+LEFT JOIN online ON newspaper.id = online.id;
+
+SELECT * 
+FROM newspaper
+LEFT JOIN online ON newspaper.id = online.id
+WHERE online.id IS NULL;
+
+--second query shows id from online individuals 
+--did not show subscribe online 
+
+--

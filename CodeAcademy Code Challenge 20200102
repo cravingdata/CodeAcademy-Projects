@@ -42,7 +42,7 @@ SELECT premium_users.user_id, premium_users.purchase_date, premium_users.cancel_
 FROM months
 CROSS JOIN premium_users;
 
---
+--ADD case for active/not_active per month
  SELECT premium_users.user_id,
   months.months,
   CASE
@@ -61,4 +61,10 @@ CROSS JOIN premium_users;
 FROM premium_users
 CROSS JOIN months;
 
---
+--UNION of two tables
+SELECT * 
+FROM songs
+UNION
+SELECT * 
+FROM bonus_songs
+LIMIT 10;

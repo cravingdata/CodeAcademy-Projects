@@ -15,7 +15,7 @@ FROM newspaper
 JOIN online ON
   newspaper.id = online.id;
 
---
+--LEFT JOIN
 SELECT * 
 FROM newspaper
 LEFT JOIN online ON newspaper.id = online.id;
@@ -28,4 +28,19 @@ WHERE online.id IS NULL;
 --second query shows id from online individuals 
 --did not show subscribe online 
 
---
+-- CROSS JOIN
+SELECT COUNT(*)
+FROM newspaper
+WHERE start_month <= 3 and end_month >= 3;
+
+SELECT * 
+FROM months;
+
+SELECT * 
+FROM newspaper 
+CROSS JOIN months;
+
+--PRIMARY KEY VERSUS FOREIGN KEY 
+SELECT * 
+FROM classes JOIN students ON
+classes.id = students.class_id; 

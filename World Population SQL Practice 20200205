@@ -1,0 +1,49 @@
+SELECT continent, count(*)
+FROM countries
+WHERE continent LIKE 'Africa';
+
+
+SELECT sum(population) AS 'total population'
+FROM countries 
+JOIN population_years
+ON
+population_years.country_id = countries.id 
+WHERE countries.continent LIKE 'Oceania' and population_years.year LIKE 2005;
+
+SELECT AVG(population) AS 'Avg Pop of SA', count(*)
+FROM countries
+JOIN population_years
+ON population_years.country_id = countries.id 
+WHERE countries.continent LIKE 'South America' and population_years.year LIKE 2003;
+
+SELECT name, MIN(population)
+FROM countries
+JOIN population_years
+ON population_years.country_id = countries.id 
+WHERE population_years.year LIKE 2003;
+
+SELECT AVG(population)
+FROM countries
+JOIN population_years
+ON population_years.country_id = countries.id
+WHERE countries.name LIKE 'Poland';
+
+SELECT COUNT(*)
+FROM countries
+JOIN population_years
+ON population_years.country_id = countries.id
+WHERE countries.name LIKE '%The';
+
+WITH countries_with_the AS (
+  SELECT DISTINCT * 
+  FROM countries
+  WHERE countries.name LIKE '%The%')
+  SELECT COUNT(*) AS 'Countries with the word "The" in their name'
+  FROM countries_with_the;
+
+SELECT DISTINCT countries.continent, sum(population_years.population) AS 'Total Population in 2010'
+FROM countries
+JOIN population_years
+ON population_years.country_id = countries.id
+WHERE population_years.year = 2010
+GROUP BY 1;

@@ -77,3 +77,17 @@ print(students.head())
 students.score = pd.to_numeric(students.score)
 print(students.columns)
 print(students.dtypes)
+
+#Set 6
+import codecademylib3_seaborn
+import pandas as pd
+from students import students
+
+#fill in nan values with 0 
+#under score column
+score_mean = students.score.mean()
+print(score_mean)
+students = students.fillna(value={'score':0})
+print(students.head())
+score_mean_2 = students.score.mean()
+print(score_mean_2)

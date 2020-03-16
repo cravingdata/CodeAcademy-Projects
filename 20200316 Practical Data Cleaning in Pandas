@@ -1,7 +1,9 @@
+#Set 1
 import codecademylib3_seaborn
 import pandas as pd
 import glob
 
+#search for files using glob
 student_files = glob.glob("exam*.csv")
 
 df_list = []
@@ -13,3 +15,17 @@ students = pd.concat(df_list)
 print(students)
 print(len(students))
 print(student_files)
+
+#Set 2
+import codecademylib3_seaborn
+import pandas as pd
+from students import students
+
+#search and delete any duplicates
+duplicates = students.duplicated()
+print(duplicates.head())
+print(duplicates.value_counts())
+students = students.drop_duplicates()
+duplicates = students.duplicated()
+print(duplicates.head())
+print(duplicates.value_counts())

@@ -27,5 +27,26 @@ print(duplicates.head())
 print(duplicates.value_counts())
 students = students.drop_duplicates()
 duplicates = students.duplicated()
+
+#Set 3
+import codecademylib3_seaborn
+import pandas as pd
+from students import students
+
+print(students.columns)
+
+print(students.gender_age.head())
+
+#changes dataframe permanently
+students['gender'] = students.gender_age.str[0:1]
+students['age'] = students.gender_age.str[1:]
+
+print(students.head())
+
+#changes columns and set it equal to students
+students = students[['full_name', 'grade', 'exam', 'score', 'gender', 'age']]
+#changes made permanent
+print(students.columns)
+print(students.head())
 print(duplicates.head())
 print(duplicates.value_counts())

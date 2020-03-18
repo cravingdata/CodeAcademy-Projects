@@ -37,3 +37,6 @@ print(all_lions)
 # store and print the length of all_lions here
 number_lions = len(all_lions)
 print(number_lions)
+
+
+#Set 3

@@ -80,3 +80,35 @@ print(pos_tagged_oz)
 # store and print the part-of-speech tagged sentence at index 100 in witches_fate_pos here
 witches_fate_pos = pos_tagged_oz[100]
 print(witches_fate_pos)
+
+#Set 5
+from nltk import RegexpParser
+from pos_tagged_oz import pos_tagged_oz
+from np_chunk_counter import np_chunk_counter
+
+# define noun-phrase chunk grammar here
+chunk_grammar = "NP: {<DT>?<JJ>*<NN>}"
+
+"""NP is the user-defined name of the chunk you are searching for. In this case NP stands for noun phrase
+<DT> matches any determiner
+? is an optional quantifier, matching either 0 or 1 determiners
+<JJ> matches any adjective
+* is the Kleene star quantifier, matching 0 or more occurrences of an adjective
+<NN> matches any noun, singular or plural"""
+# create RegexpParser object here
+chunk_parser = RegexpParser(chunk_grammar)
+
+# create a list to hold noun-phrase chunked sentences
+np_chunked_oz = list()
+
+# create a for loop through each pos-tagged sentence in pos_tagged_oz here
+for word_pos_tagged_oz in pos_tagged_oz:
+  
+  # chunk each sentence and append to np_chunked_oz here
+  np_chunked_oz.append(chunk_parser.parse(word_pos_tagged_oz))
+
+# store and print the most common np-chunks here
+most_common_np_chunks = np_chunk_counter(np_chunked_oz)
+print(most_common_np_chunks)
+
+

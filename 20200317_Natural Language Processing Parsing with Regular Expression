@@ -40,3 +40,43 @@ print(number_lions)
 
 
 #Set 3
+from nltk import RegexpParser, Tree
+from pos_tagged_oz import pos_tagged_oz
+
+# define adjective-noun chunk grammar here
+chunk_grammar = "AN: {<JJ><NN>}"
+
+# create RegexpParser object here
+chunk_parser = RegexpParser(chunk_grammar)
+
+# chunk the pos-tagged sentence at index 282 in pos_tagged_oz here
+scaredy_cat = chunk_parser.parse(pos_tagged_oz[282])
+print(scaredy_cat)
+
+# pretty_print the chunked sentence here
+Tree.fromstring(str(scaredy_cat)).pretty_print()
+
+#Set 4
+import nltk
+from nltk import pos_tag
+from word_tokenized_oz import word_tokenized_oz
+
+# save and print the sentence stored at index 100 in word_tokenized_oz here
+print(word_tokenized_oz)
+witches_fate = word_tokenized_oz[100]
+print(witches_fate)
+"""This sample here shows us what the text at index 100 looks like without it being tagged."""
+
+# create a list to hold part-of-speech tagged sentences here
+pos_tagged_oz = list()
+
+# create a for loop through each word tokenized sentence in word_tokenized_oz here
+for word_tokenized_sentence in word_tokenized_oz:
+  # part-of-speech tag each sentence and append to pos_tagged_oz here
+  pos_tagged_oz.append(pos_tag(word_tokenized_sentence))
+  
+"""Here, the for loop allows all of the words in word_tokenized_oz to be appended into a list."""
+print(pos_tagged_oz)
+# store and print the part-of-speech tagged sentence at index 100 in witches_fate_pos here
+witches_fate_pos = pos_tagged_oz[100]
+print(witches_fate_pos)

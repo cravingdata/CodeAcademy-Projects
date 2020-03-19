@@ -111,4 +111,30 @@ for word_pos_tagged_oz in pos_tagged_oz:
 most_common_np_chunks = np_chunk_counter(np_chunked_oz)
 print(most_common_np_chunks)
 
+#Set 6
+from nltk import RegexpParser
+from pos_tagged_oz import pos_tagged_oz
+from vp_chunk_counter import vp_chunk_counter
 
+# define verb phrase chunk grammar here
+chunk_grammar = "VP: {<DT>?<JJ>*<NN><VB.*><RB.?>?}"
+"""VP is the user-defined name of the chunk you are searching for. In this case VP stands for verb phrase
+<VB.*> matches any verb using the . as a wildcard and the * quantifier to match 0 or more occurrences of any character. This ensures matching verbs of any tense (ex. VB for present tense, VBD for past tense, or VBN for past participle)
+<DT>?<JJ>*<NN> matches any noun phrase
+<RB.?> matches any adverb using the . as a wildcard and the optional quantifier to match 0 or 1 occurrence of any character. This ensures matching any form of adverb (regular RB, comparative RBR, or superlative RBS)
+? is an optional quantifier, matching either 0 or 1 adverbs"""
+# create RegexpParser object here
+chunk_parser = RegexpParser(chunk_grammar)
+
+# create a list to hold verb-phrase chunked sentences
+vp_chunked_oz = list()
+
+# create for loop through each pos-tagged sentence in pos_tagged_oz here
+for word_pos_tagged_oz in pos_tagged_oz:
+  
+  # chunk each sentence and append to vp_chunked_oz here
+  vp_chunked_oz.append(chunk_parser.parse(word_pos_tagged_oz))
+  
+# store and print the most common vp-chunks here
+most_common_vp_chunks = vp_chunk_counter(vp_chunked_oz)
+print(most_common_vp_chunks)

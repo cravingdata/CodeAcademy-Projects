@@ -1,0 +1,66 @@
+# Set 1: Reading a File
+
+with open('welcome.txt') as text_file:
+  text_data = text_file.read()
+  print(text_data)
+  
+# Set 2: Iterating through Lines
+
+with open('how_many_lines.txt') as lines_doc:
+  for lines in lines_doc.readlines():
+    print(lines) 
+    
+with open('how_many_lines.txt') as lines_doc:
+  for lines in lines_doc:
+    print(lines)
+# Set 3: Reading a Line
+
+with open('just_the_first.txt') as first_line_doc:
+  first_line = first_line_doc.readline()
+  print(first_line)
+
+# Set 4: Writing a File
+
+with open('bad_bands.txt', 'w') as bad_bands_doc:
+  bad_bands_doc.write("Money")
+  
+# Set 5: Appending to File
+
+with open('cool_dogs.txt', 'a') as cool_dogs_file:
+  cool_dogs_file.write("Air Buddy")
+  print(cool_dogs_file)
+  
+# Set 6: What's with With?
+
+# Indent the rest of the body
+# Except for .close() to prevent from getting
+# IndentError
+with open('fun_file.txt') as close_this_file:
+  setup = close_this_file.readline()
+  punchline = close_this_file.readline()
+  print(setup)
+close_this_file.close()
+
+"""The with keyword invokes something called a context manager 
+for the file that we’re calling open() on. This context manager takes care 
+of opening the file when we call open() and then closing the file after we leave the indented block."""
+
+# Set 7: What is a CSV File?
+
+with open('logger.csv') as log_csv_file:
+  print(log_csv_file.read())
+
+# Set 8: Reading a CSV File
+
+import csv
+
+with open('cool_csv.csv') as cool_csv_file:
+  cool_csv_dict = csv.DictReader(cool_csv_file)
+  for row in cool_csv_dict:
+    print(row['Cool Fact'])
+    
+# Note that printing 'row' does not give the third field "Cool Fact", unless specified as "Cool Fact".
+
+"""We pass the additional keyword argument newline='' 
+to the file opening open() function so that we don’t accidentally 
+mistake a line break in one of our data fields as a new row in our CSV"""

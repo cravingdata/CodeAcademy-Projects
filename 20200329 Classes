@@ -34,3 +34,63 @@ class Grade:
 
 # Set 4: Methods
 
+"""The first argument in a method is always the object that is calling the method. Convention recommends that we name this first argument self. Methods always have at least this one argument."""
+
+"""When you call a method it automatically passes the object calling the method as the first argument."""
+
+class Rules:
+  def washing_brushes(self):
+    return "Point bristles towards the basin while washing your brushes."
+
+# Set 5: Methods with Arguments
+
+class Circle:
+  pi = 3.14
+  def area(self, radius):
+    return self.pi * radius ** 2
+  
+circle = Circle()  # instantiated Circle class
+
+pizza_area = circle.area(12/2)  # calling object and the method in class Circle, area, to find area of a pizza. Then saving it into a variable pizza_area.
+teaching_table_area = circle.area(36/2)
+round_room_area = circle.area(11460/2)
+
+print(pizza_area)
+print(teaching_table_area)
+print(round_room_area)
+
+# Set 6: Constructors
+
+class Circle:
+  pi = 3.14
+  
+  """There are several methods that we can define in a Python class that have special behavior. These methods are sometimes called “magic”, because they behave differently from regular methods. Another popular term is dunder methods, so-named because they have two underscores (double-underscore abbreviated to “dunder”) on either side of them."""
+
+  """The first dunder method we’re going to use is the __init__ method (note the two underscores before and after the word “init”). This method is used to initialize a newly created object. It is called every time the class is instantiated."""
+  
+  """Methods that are used to prepare an object being instantiated are called constructors. The word “constructor” is used to describe similar features in other object-oriented programming languages but programmers who refer to a constructor in Python are usually talking about the __init__ method."""
+  # Add constructor here:
+  def __init__(self, diameter):
+    print("New circle with diameter: ", diameter)
+    
+teaching_table = Circle(36)
+print(teaching_table)
+
+# Set 7: Instance Variables
+
+class Store:
+  pass
+
+alternative_rocks = Store()
+isabelles_ices = Store()
+
+alternative_rocks.store_name = "Alternative Rocks"
+
+isabelles_ices.store_name = "Isabelle's Ices"
+
+"""The data held by an object is referred to as an instance variable. Instance variables aren’t shared by all instances of a class — they are variables that are specific to the object they are attached to. Also, each instance of a class can hold different kinds of data.
+
+Alternative_rocks and isabelles_ices are objects.  The instance variable in this case is store_name."""
+
+# Set 8: Attribute Functions
+

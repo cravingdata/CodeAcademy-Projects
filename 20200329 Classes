@@ -94,3 +94,121 @@ Alternative_rocks and isabelles_ices are objects.  The instance variable in this
 
 # Set 8: Attribute Functions
 
+how_many_s = [{'s': False}, "sassafrass", 18, ["a", "c", "s", "d", "s"]]
+
+for element in how_many_s:
+  if hasattr(element, "count"):
+    print(element)
+    print(element.count("s"))
+    
+"""Instance variables and class variables are both accessed similarly in Python. 
+This is no mistake, they are both considered attributes of an object. 
+If we attempt to access an attribute that is neither a class variable nor an 
+instance variable of the object Python will throw an AttributeError."""
+
+"""What if we aren’t sure if an object has an attribute or not? getattr() 
+is a Python function that works a lot like the usual dot-syntax (i.e., object_name.attribute_name) 
+but we can supply a third argument that will be the default if the object 
+does not have the given attribute. What if we only really care whether the attribute exists? 
+hasattr() will return True if an object has a given attribute and False otherwise."""
+
+# Set 9: Self
+
+class Circle:
+  pi = 3.14
+  def __init__(self, diameter):
+    # __init__ is a constructer 
+    print("Creating circle with diameter {d}".format(d=diameter))
+
+    self.radius = diameter/2
+    # self.radius is an instance variable
+    # found in class
+    # it is a class variable
+    
+  def circumference(self):
+    return 2 * self.pi * self.radius
+  # circumference is a method under class
+    
+# we must instantiate the class through a variable
+# and a () at the end of class name
+medium_pizza = Circle(12) 
+teaching_table = Circle(36)
+round_room = Circle(11460)
+
+# By instantiating the class, 
+# now we can call on the method of that class
+# the method called circumference
+# which calls on the self
+print(medium_pizza.circumference())
+print(teaching_table.circumference())
+print(round_room.circumference())
+
+# Set 10: Everything is an Object
+
+"""Attributes can be added to user-defined objects after instantiation, so it’s possible for an object to have some attributes that are not explicitly defined in an object’s constructor. We can use the dir() function to investigate an object’s attributes at runtime. dir() is short for directory and offers an organized presentation of object attributes."""
+
+"""Python automatically adds a number of attributes to all objects that get created. These internal attributes are usually indicated by double-underscores. But sure enough, attribute is in that list."""
+
+dir(5)
+
+def this_function_is_an_object(self):
+  return self.egg
+
+print(dir(this_function_is_an_object))
+
+# Functions are objects also!
+
+"""
+>>> ['__annotations__', '__call__', '__class__', '__closure__', '__code__', 
+'__defaults__', '__delattr__', '__dict__', '__dir__', '__doc__', '__eq__', 
+'__format__', '__ge__', '__get__', '__getattribute__', '__globals__', '__gt__', 
+'__hash__', '__init__', '__init_subclass__', '__kwdefaults__', '__le__', '__lt__', 
+'__module__', '__name__', '__ne__', '__new__', '__qualname__', '__reduce__', 
+'__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__']
+
+"""
+
+# Set 11: String Representation
+
+class Circle:
+  pi = 3.14
+  
+  # __init__ is a dunder method, or 
+  # constructor!
+  def __init__(self, diameter):
+    self.radius = diameter / 2
+  
+  def area(self):
+    return self.pi * self.radius ** 2
+  
+  def circumference(self):
+    return self.pi * 2 * self.radius
+  
+  def __repr__(self):
+    return "Circle with radius " + str(self.radius)
+  # The __repr__ prints out the string 
+  # of the object, which is stored
+  # in dunder method __repr__
+  # by taking the class variable, self.radius
+  # This dunder method allows you to 
+  # control what is printed when user 
+  # prints the initiation variable/object.
+  # This is done without using dot notation.
+  
+  
+medium_pizza = Circle(12)
+teaching_table = Circle(36)
+round_room = Circle(11460)
+
+print(medium_pizza.area())
+
+print(medium_pizza)
+print(teaching_table)
+print(round_room)
+
+"""Now, we will learn another dunder method called __repr__. 
+This is a method we can use to tell Python what we want the string 
+representation of the class to be. __repr__ can only have one parameter, self, and must return a string."""
+
+
+

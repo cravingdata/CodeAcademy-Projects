@@ -1,0 +1,45 @@
+# Set 1: Inheritance
+
+# Original class, or parent class
+class Bin:
+  pass
+
+# RecyclingBin is a subclass of Bin
+# It would still have the same constructor.
+class RecyclingBin(Bin):
+  pass
+
+"""If the bulk of a class’s definition is useful, 
+but we have a new use case that is distinct from how the original class was used, 
+we can inherit from the original class. Think of inheritance as a remix — 
+it sounds a lot like the original, but there’s something… different about it."""
+
+
+# Set 2: Exceptions
+
+# Define your exception up here:
+class OutOfStock(Exception):
+  pass
+
+# Update the class below to raise OutOfStock
+class CandleShop:
+  name = "Here's a Hot Tip: Buy Drip Candles"
+  def __init__(self, stock):
+    self.stock = stock
+    
+  def buy(self, color):
+    if self.stock[color] < 1:
+      raise OutOfStock
+    self.stock[color] = self.stock[color] - 1
+
+candle_shop = CandleShop({'blue': 6, 'red': 2, 'green': 0})
+candle_shop.buy('green')
+
+# This should raise OutOfStock:
+# candle_shop.buy('green')
+
+# Define your exception up here:
+"""An Exception is a class that inherits from Python’s Exception class."""
+
+
+"""We can validate this ourselves using the issubclass() function. issubclass() is a Python built-in function that takes two parameters. issubclass() returns True if the first argument is a subclass of the second argument. I  t returns False if the first class is not a subclass of the second. issubclass() raises a TypeError if either argument passed in is not a class."""

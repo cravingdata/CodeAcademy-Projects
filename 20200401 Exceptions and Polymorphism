@@ -109,4 +109,64 @@ class HomeInsurance(InsurancePolicy):
  that different objects from different classes can perform the same operation 
  (even if it is implemented differently for each class)."""
  
-# Set 6: 
+# Set 6: Polymorphism
+
+a_list = [1, 18, 32, 12]
+a_dict = {'value': True}
+a_string = "Polymorphism is cool!"
+
+"""Polymorphism is the term used to describe the same syntax (like the + operator here, 
+but it could be a method name) doing different actions depending on the type of data."""
+
+print(len(a_list))   # >>> 4
+print(len(a_dict))   # >>> 1
+print(len(a_string))  # >>> 21
+
+print(a_list + list(a_string))  # add characters to list, and make longer list.
+a_dict['value'] = a_string  # set 'value' key in dictionary equal to new value in a_string
+print(a_dict['value'])  # print value
+print(a_dict)  # print key and value dictionary
+
+# Set 7: Dunder Methods
+
+class Atom:
+  def __init__(self, label):
+    self.label = label
+  def __repr__(self):
+    return str(self.label)
+  def __add__(self, other):
+    return Molecule([self, other])
+    
+class Molecule:
+  def __init__(self, atoms):
+    if type(atoms) is list:
+	    self.atoms = atoms
+  def __repr__(self):
+    return str(self.atoms)
+sodium = Atom("Na")
+chlorine = Atom("Cl")
+salt = Molecule([sodium, chlorine])
+print("Original Salt: " + str(salt))
+newsalt = sodium + chlorine
+print("New Salt: {}{}".format(*newsalt.atoms))
+
+# Set 8: Dunder Methods II
+
+class LawFirm:
+  def __init__(self, practice, lawyers):  # constructer method with two parameters
+    self.practice = practice
+    self.lawyers = lawyers
+  
+  def __len__(self):   # we get length of the list
+    return len(self.lawyers)
+  
+  def __contains__(self, lawyer):  # sets up the True or False found in list
+    return lawyer in self.lawyers
+  
+  def __repr__(self):  # sets up string to be printed in console
+    return str({self.practice: len(self.lawyers)})
+
+d_and_p = LawFirm("Injury", ["Donelli", "Paderewski"])  # object variable
+print(d_and_p)  # prints >>> {'Injury': 2}
+print('Donelli' in d_and_p)  # prints True from contain dunder method
+

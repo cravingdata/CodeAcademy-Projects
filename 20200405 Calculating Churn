@@ -1,0 +1,231 @@
+# Set 1: Single Month II
+
+WITH enrollments AS 
+(SELECT *
+FROM subscriptions
+WHERE subscription_start < '2017-01-01'
+AND (
+  (subscription_end >= '2017-01-01')
+  OR (subscription_end IS NULL)
+)),
+status AS 
+(SELECT 
+CASE
+  WHEN (subscription_end > '2017-01-31')
+    OR (subscription_end IS NULL) THEN 0
+  ELSE 1
+  END as is_canceled,
+CASE
+  WHEN (subscription_start < '2017-01-01')
+    AND (
+      (subscription_end >= '2017-01-01')
+        OR (subscription_end IS NULL)
+    ) THEN 1
+    ELSE 0
+  END as is_active
+FROM enrollments
+)
+SELECT 1.0 * SUM(is_canceled)/SUM(is_active) FROM status;   # calculate the churn for January 2017.
+
+# Set 2: Multiple Month: Create Months Temporary Table
+
+--Our single month calculation is now in a form that we can extend to a multiple month result. But first, we need months!
+
+WITH months AS (
+SELECT  --January
+  '2017-01-01' AS first_day,
+  '2017-01-31' AS last_day;
+UNION
+SELECT  --February
+  '2017-02-01' AS first_day,
+  '2017-02-28' AS last_day;
+  UNION
+SELECT  --March
+  '2017-03-01' AS first_day,
+  '2017-03-31' AS last_day;
+) SELECT * 
+FROM months;
+
+# Set 3: Multiple Month: Cross Join Months and Users
+
+WITH months AS
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+),
+cross_join AS
+(SELECT *      -- join months and cross join tables
+FROM subscriptions
+CROSS JOIN months)
+SELECT *
+FROM cross_join
+LIMIT 100;
+
+# Set 4: Multiple Month: Determine Active Status
+
+WITH months AS
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+),
+cross_join AS
+(SELECT *
+FROM subscriptions
+CROSS JOIN months),
+status AS
+(SELECT id, first_day as month,
+CASE
+  WHEN (subscription_start < first_day)  -- every month has its own different first day
+    AND (
+      subscription_end > first_day
+      OR subscription_end IS NULL
+    ) THEN 1 
+END as is_active
+FROM cross_join)  -- cross join has the table merged, so we can select all info from that table
+SELECT *
+FROM status
+LIMIT 100;
+
+# Set 5: Multiple Month: Determine Cancellation Status
+
+WITH months AS
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+),
+cross_join AS
+(SELECT *
+FROM subscriptions
+CROSS JOIN months),
+status AS
+(SELECT id, first_day as month,
+CASE
+  WHEN (subscription_start < first_day)
+    AND (
+      subscription_end > first_day
+      OR subscription_end IS NULL
+    ) THEN 1
+  ELSE 0
+END as is_active, --comma separates two parameters
+CASE 
+  WHEN subscription_end BETWEEN first_day AND last_day THEN 1 --subscription_end is from cross_join table, and is between first_day and last_day of that month
+  ELSE 0
+END as is_canceled
+FROM cross_join)
+SELECT *
+FROM status
+LIMIT 100;
+
+# Set 6: Multiple Month: Sum Active and Canceled Users
+
+WITH months AS
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+),
+cross_join AS
+(SELECT *
+FROM subscriptions
+CROSS JOIN months),
+status AS
+(SELECT id, first_day as month,
+CASE
+  WHEN (subscription_start < first_day)
+    AND (
+      subscription_end > first_day
+      OR subscription_end IS NULL
+    ) THEN 1
+  ELSE 0
+END as is_active,
+CASE 
+  WHEN subscription_end BETWEEN first_day AND last_day THEN 1
+  ELSE 0
+END as is_canceled
+FROM cross_join),
+status_aggregate AS  -- table that aggregates status
+(SELECT
+  month,  -- month 'first day' from status table
+  SUM(is_active) as active,  -- sum of all is_active
+  SUM(is_canceled) as canceled  -- sum of all is_canceled
+FROM status
+GROUP BY month)
+SELECT *
+FROM status_aggregate;
+
+# Set 7: Multiple Month: Churn Rate Calculation
+
+WITH months AS
+(SELECT
+  '2017-01-01' as first_day,
+  '2017-01-31' as last_day
+UNION
+SELECT
+  '2017-02-01' as first_day,
+  '2017-02-28' as last_day
+UNION
+SELECT
+  '2017-03-01' as first_day,
+  '2017-03-31' as last_day
+),
+cross_join AS
+(SELECT *
+FROM subscriptions
+CROSS JOIN months),
+status AS
+(SELECT id, first_day as month,
+CASE
+  WHEN (subscription_start < first_day)
+    AND (
+      subscription_end > first_day
+      OR subscription_end IS NULL
+    ) THEN 1
+  ELSE 0
+END as is_active,
+CASE 
+  WHEN subscription_end BETWEEN first_day AND last_day THEN 1
+  ELSE 0
+END as is_canceled
+FROM cross_join),
+status_aggregate AS
+(SELECT
+  month,
+  SUM(is_active) as active,
+  SUM(is_canceled) as canceled
+FROM status
+GROUP BY month)
+SELECT month, 1.0 * status_aggregate.canceled / status_aggregate.active as churn_rate
+FROM status_aggregate;  -- writing as status_aggregate.canceled is better than SUM(is_active) since it means the same thing
+
+# Set 8: 

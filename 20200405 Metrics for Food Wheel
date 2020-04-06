@@ -47,3 +47,31 @@ plt.show()
 
 # Orders Over Time
 
+import codecademylib
+from matplotlib import pyplot as plt
+import pandas as pd
+
+orders = pd.read_csv('orders.csv')
+
+print orders.head()
+
+orders['month'] = orders.date.apply(lambda x: x.split('-')[0])  # use lambda to apply split function, and takes in an argument
+# set the orders dataframe with new column name equal to the applied method
+
+print orders.head()
+
+avg_order = orders.groupby('month').price.mean().reset_index()
+# groupby month first, which was created above
+# then get the average by including price then apply the mean of that price. 
+# afterwards, reset the indix to create the new table
+print(avg_order)
+# avg_order shows mean price and months
+
+std_order = orders.groupby('month').price.std().reset_index()
+# to calculate standard deviation of price, use std() method
+print(std_order)
+# std_order shows price standard deviations and months
+
+# Orders Over Time
+
+

@@ -17,3 +17,33 @@ print(cuisine_counts)
 
 # What cuisines does FoodWheel offer?
 
+import codecademylib3
+from matplotlib import pyplot as plt
+import pandas as pd
+
+restaurants = pd.read_csv('restaurants.csv')
+print(restaurants.head())
+
+# creating table that is grouped by cuisine, and counts the name of restaurants under each cuisine
+cuisine_counts = restaurants.groupby('cuisine')\
+                            .name.count()\
+                            .reset_index()
+
+cuisines = cuisine_counts.cuisine.values  # getting cuisine values from cuisine counts table 
+counts = cuisine_counts.name.values
+# getting name values from cuisine counts table 
+print(cuisines)  # print >>> ['American' 'Chinese' 'Italian' 'Japanese' 'Korean' 'Pizza' 'Vegetarian']
+print(counts)  # print >>> [10 11  8  4  3  4  4]
+
+# .values returns a list 
+
+
+plt.pie(counts,
+        labels=cuisines,
+       autopct='%d%%')  # percentage on pie: %.2f%% gives percentage with 2 decimal place values, while %d%% gives no place value but just rounded
+plt.title('FoodWheel')
+plt.axis('equal')  # to make a perfect circle; without it, it would be oval shape
+plt.show()
+
+# Orders Over Time
+

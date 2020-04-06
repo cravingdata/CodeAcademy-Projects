@@ -1,0 +1,19 @@
+# FoodWheel: Let the Food Choose For You
+
+import codecademylib
+from matplotlib import pyplot as plt
+import pandas as pd
+
+restaurants = pd.read_csv('restaurants.csv')
+
+print(restaurants.head())
+
+cuisine_options_count = restaurants.cuisine.nunique()
+print(cuisine_options_count)  # print >>> 7 
+
+cuisine_counts = restaurants.groupby('cuisine').name.count().reset_index()    # groupby cuisine, and selects name to count for number
+
+print(cuisine_counts)  
+
+# What cuisines does FoodWheel offer?
+

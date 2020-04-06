@@ -74,4 +74,53 @@ print(std_order)
 
 # Orders Over Time
 
+import codecademylib
+from matplotlib import pyplot as plt
+import pandas as pd
+
+orders = pd.read_csv('orders.csv')
+
+orders['month'] = orders.date.apply(lambda x: x.split('-')[0])
+
+avg_order = orders.groupby('month').price.mean().reset_index()
+
+std_order = orders.groupby('month').price.std().reset_index()
+print(std_order)
+ax = plt.subplot()
+
+bar_heights = avg_order.price
+bar_errors = std_order.price
+
+plt.bar(range(len(bar_heights)),
+  			bar_heights,
+        yerr=bar_errors,
+       capsize=5)
+ax.set_xticks(range(len(bar_heights)))
+ax.set_xticklabels(['April', 'May', 'June', 'July', 'August', 'September'])
+plt.ylabel('Average Order Amount')
+plt.title('Order Amount over Time')
+plt.show()
+
+# Customer Types
+
+import codecademylib
+from matplotlib import pyplot as plt
+import pandas as pd
+
+orders = pd.read_csv('orders.csv')
+
+customer_amount = orders.groupby('customer_id').price.sum().reset_index()
+
+print customer_amount.head()
+print customer_amount.price.values
+# though we don't see it on localhost, this customer_amount.price.values print to the console a list of price
+
+plt.hist(customer_amount.price.values,
+        range=(0, 200), bins=40)  # range shows 0 - 200 on x-axis
+# bins tell you how skinny to make the bars to see the details of the histogram clearly
+plt.xlabel('Total Spent')
+plt.ylabel("Number of Customers")
+plt.title('Customer Expenditure Over 6 Months')
+
+plt.show()
 
